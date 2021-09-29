@@ -9,7 +9,7 @@ public class GsonSerializer<T> implements Serializer<T>{
 	
 	private final Gson gson = new GsonBuilder().create();
 
-	public byte[] serialize(String topic, T object) {
+	public byte[] serialize(String s, T object) {
 		return gson.toJson(object).getBytes();
 	}
 
