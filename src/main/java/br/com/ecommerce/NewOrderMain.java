@@ -10,7 +10,7 @@ public class NewOrderMain {
 
 	public static void main(String[] args) {
 		try (KafkaDisptacher<Order> orderDispatcher = new KafkaDisptacher<Order>()) {
-			try (KafkaDisptacher<String> emailDispatcher = new KafkaDisptacher<String>()) {
+			try (KafkaDisptacher<Email> emailDispatcher = new KafkaDisptacher<Email>()) {
 				String userId = UUID.randomUUID().toString();
 				String orderId = UUID.randomUUID().toString();
 				BigDecimal amount = new BigDecimal(Math.random() * 5000 + 1);
@@ -18,7 +18,9 @@ public class NewOrderMain {
 				Order order = new Order(userId, orderId, amount);
 				orderDispatcher.send("ECOMMERCE_NEW_ORDER", userId, order);
 
-				String email = "Processing order.";
+				String subject = "Processing order";
+				String body = "We are processing your order.";
+				Email email = new Email(subject, body);
 				emailDispatcher.send("ECOMMERCE_SEND_EMAIL", userId, email);
 			}
 		}
