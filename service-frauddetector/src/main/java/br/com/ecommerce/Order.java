@@ -25,5 +25,9 @@ public class Order {
 	public BigDecimal getAmount() {
 		return amount;
 	}
+
+	public String toString() {
+		return "Order [userId=" + userId + ", orderId=" + orderId + ", amount=" + amount + "]";
+	}
 	
 }
