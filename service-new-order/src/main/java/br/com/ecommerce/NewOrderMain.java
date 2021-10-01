@@ -15,8 +15,9 @@ public class NewOrderMain {
 					String userId = UUID.randomUUID().toString();
 					String orderId = UUID.randomUUID().toString();
 					BigDecimal amount = new BigDecimal(Math.random() * 5000 + 1);
+					String emailAddress = Math.random() + "email.com";
 
-					Order order = new Order(userId, orderId, amount);
+					Order order = new Order(userId, orderId, amount, emailAddress);
 					orderDispatcher.send("ECOMMERCE_NEW_ORDER", userId, order);
 
 					String subject = "Processing order";
