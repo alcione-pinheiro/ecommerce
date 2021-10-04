@@ -12,18 +12,17 @@ public class NewOrderMain {
 		for (int i = 0; i < 20; i++) {
 			try (KafkaDisptacher<Order> orderDispatcher = new KafkaDisptacher<Order>()) {
 				try (KafkaDisptacher<Email> emailDispatcher = new KafkaDisptacher<Email>()) {
-					String userId = UUID.randomUUID().toString();
 					String orderId = UUID.randomUUID().toString();
 					BigDecimal amount = new BigDecimal(Math.random() * 5000 + 1);
 					String emailAddress = Math.random() + "email.com";
 
-					Order order = new Order(userId, orderId, amount, emailAddress);
-					orderDispatcher.send("ECOMMERCE_NEW_ORDER", userId, order);
+					Order order = new Order(orderId, amount, emailAddress);
+					orderDispatcher.send("ECOMMERCE_NEW_ORDER", emailAddress, order);
 
 					String subject = "Processing order";
 					String body = "We are processing your order.";
 					Email email = new Email(subject, body);
-					emailDispatcher.send("ECOMMERCE_SEND_EMAIL", userId, email);
+					emailDispatcher.send("ECOMMERCE_SEND_EMAIL", emailAddress, email);
 				}
 			}
 		}
