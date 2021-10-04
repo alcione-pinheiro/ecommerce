@@ -26,10 +26,10 @@ public class FraudDetectorService {
 		Order order = record.value();
 		if (isFraud(order)) {
 			System.out.println("Order is a fraud.");
-			dispatcher.send("ECOMMERCE_REJECTED_ORDER", order.getUserId(), order);
+			dispatcher.send("ECOMMERCE_REJECTED_ORDER", order.getEmail(), order);
 		} else {
 			System.out.println("Order processed.");
-			dispatcher.send("ECOMMERCE_APPROVED_ORDER", order.getUserId(), order);
+			dispatcher.send("ECOMMERCE_APPROVED_ORDER", order.getEmail(), order);
 		}
 		
 		System.out.println("--------------------------------------------------");

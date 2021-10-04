@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
@@ -38,7 +39,7 @@ public class CreateUserService {
 		Order order = record.value();
 		try {
 			if (!exists(order.getEmail())) {
-				insertNewUser(order.getUserId(), order.getEmail());
+				insertNewUser(order.getEmail());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -47,9 +48,9 @@ public class CreateUserService {
 		System.out.println("--------------------------------------------------");
 	}
 
-	private void insertNewUser(String userId, String email) throws SQLException {
+	private void insertNewUser(String email) throws SQLException {
 		PreparedStatement statement = connection.prepareStatement("insert into users (uuid, email) values(?, ?)");
-		statement.setString(1, userId);
+		statement.setString(1, UUID.randomUUID().toString());
 		statement.setString(2, email);
 		statement.execute();
 		System.out.println("User added!");
